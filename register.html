@@ -290,26 +290,16 @@ const LIFF_ID =
 const API_URL =
 "https://script.google.com/macros/s/AKfycbxJIf_cMDyMSWyhwYhbgTNj2SHKgsZVojAdY2l16lqAYnQbCVacqleQlo1jWJNUU68SKQ/exec";
 
-async function main(){
+async function main() {
+  await liff.init({ liffId: "2010108734-5UUXYrMv" });
 
-try{
+  if (!liff.isLoggedIn()) {
+    liff.login({ redirectUri: window.location.href });
+    return;
+  }
 
-await liff.init({
-liffId:LIFF_ID
-});
-
-if (!liff.isLoggedIn()) {
-  liff.login({ redirectUri: window.location.href });
-}
-
-}catch(err){
-
-alert("LIFF โหลดไม่สำเร็จ");
-
-console.log(err);
-
-}
-
+  const profile = await liff.getProfile();
+  console.log(profile);
 }
 
 main();
