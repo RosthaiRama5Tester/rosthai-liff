@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <title>ชำระเงิน - รสไท ปิ่นโต</title>
+
+  <!-- LIFF SDK -->
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+
+  <style>
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:sans-serif;
+    }
+
+    body{
+      background:#ff5a1f;
+      min-height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      padding:20px;
+    }
+
+    .container{
+
+      width:100%;
+      max-width:430px;
+
+      background:white;
+
+      border-radius:30px;
+
+      padding:30px;
+
+      box-shadow:0 10px 30px rgba(0,0,0,0.15);
+
+      text-align:center;
+
+    }
+
+    .logo img{
+      width:100px;
+      margin-bottom:15px;
+    }
+
+    .title{
+
+      font-size:40px;
+
+      font-weight:bold;
+
+      color:#ff5a1f;
+
+      margin-bottom:10px;
+
+    }
+
+    .subtitle{
+
+      color:#666;
+
+      margin-bottom:30px;
+
+      font-size:18px;
+
+    }
+
+    .package-box{
+
+      background:#fff5f1;
+
+      border-radius:20px;
+
+      padding:20px;
+
+      margin-bottom:25px;
+
+    }
+
+    .package-name{
+
+      font-size:28px;
+
+      font-weight:bold;
+
+      margin-bottom:10px;
+
+    }
+
+    .price{
+
+      font-size:56px;
+
+      font-weight:bold;
+
+      color:#ff5a1f;
+
+    }
+
+    .qr-box{
+
+      background:white;
+
+      border-radius:20px;
+
+      padding:20px;
+
+      margin-bottom:25px;
+
+      box-shadow:0 5px 20px rgba(0,0,0,0.08);
+
+    }
+
+    .qr-box img{
+
+      width:100%;
+
+      max-width:250px;
+
+      border-radius:16px;
+
+    }
+
+    .scan-text{
+
+      margin-top:15px;
+
+      color:#555;
+
+      line-height:1.6;
+
+    }
+
+    .upload-box{
+
+      margin-bottom:25px;
+
+      text-align:left;
+
+    }
+
+    .upload-label{
+
+      display:block;
+
+      margin-bottom:10px;
+
+      font-weight:bold;
+
+      color:#333;
+
+    }
+
+    input[type="file"]{
+
+      width:100%;
+
+      padding:14px;
+
+      border:2px dashed #ff5a1f;
+
+      border-radius:14px;
+
+      background:#fff7f3;
+
+    }
+
+    #preview{
+
+      width:100%;
+
+      margin-top:15px;
+
+      border-radius:16px;
+
+      display:none;
+
+    }
+
+    .note{
+
+      background:#fff5f1;
+
+      border-radius:14px;
+
+      padding:15px;
+
+      color:#666;
+
+      font-size:14px;
+
+      line-height:1.6;
+
+      margin-bottom:25px;
+
+    }
+
+    .confirm-btn{
+
+      width:100%;
+
+      background:#ff5a1f;
+
+      color:white;
+
+      border:none;
+
+      padding:18px;
+
+      border-radius:16px;
+
+      font-size:22px;
+
+      font-weight:bold;
+
+      cursor:pointer;
+
+      transition:0.2s;
+
+    }
+
+    .confirm-btn:hover{
+      opacity:0.9;
+    }
+
+    .footer{
+
+      margin-top:20px;
+
+      font-size:14px;
+
+      color:#888;
+
+    }
+
+    /* Loading Overlay */
+
+    #loadingOverlay{
+
+      position:fixed;
+
+      top:0;
+      left:0;
+
+      width:100%;
+      height:100%;
+
+      background:rgba(255,255,255,0.92);
+
+      display:none;
+
+      justify-content:center;
+      align-items:center;
+      flex-direction:column;
+
+      z-index:9999;
+
+      backdrop-filter:blur(4px);
+
+    }
+
+    /* Spinner */
+
+    .spinner{
+
+      width:75px;
+      height:75px;
+
+      border:8px solid #ffd8c9;
+
+      border-top:8px solid #ff5a1f;
+
+      border-radius:50%;
+
+      animation:spin 1s linear infinite;
+
+    }
+
+    /* Loading Text */
+
+    .loading-text{
+
+      margin-top:22px;
+
+      color:#ff5a1f;
+
+      font-size:20px;
+
+      font-weight:bold;
+
+    }
+
+    /* Animation */
+
+    @keyframes spin{
+
+      0%{
+        transform:rotate(0deg);
+      }
+
+      100%{
+        transform:rotate(360deg);
+      }
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- Logo -->
+  <div class="logo">
+    <img src="E:\rosthai-liff\index.html\PIC\logo.png">
+  </div>
+
+  <!-- Title -->
+  <div class="title">
+    รสไท ปิ่นโต
+  </div>
+
+  <div class="subtitle">
+    ชำระเงินเพื่อสมัครแพ็คเกจ
+  </div>
+
+  <!-- Package -->
+  <div class="package-box">
+
+    <div class="package-name">
+      แพ็คอาหาร 15 วัน
+    </div>
+
+    <div class="price">
+      3,000 บาท
+    </div>
+
+  </div>
+
+  <!-- QR -->
+  <div class="qr-box">
+
+    <!-- เปลี่ยน QR จริง -->
+    <img src="E:\rosthai-liff\index.html\PIC\qr-payment.png">
+
+    <div class="scan-text">
+      สแกน QR Code เพื่อชำระเงิน<br>
+      เข้าบัญชีบริษัท รสไท
+    </div>
+
+  </div>
+
+  <!-- Upload Slip -->
+  <div class="upload-box">
+
+    <label class="upload-label">
+      อัปโหลดสลิปการโอนเงิน
+    </label>
+
+    <input
+      type="file"
+      id="slipFile"
+      accept="image/*"
+      onchange="previewImage(event)"
+    >
+
+    <img id="preview">
+
+  </div>
+
+  <!-- Note -->
+  <div class="note">
+    หลังจากชำระเงินเรียบร้อย กรุณาอัปโหลดสลิปและกดยืนยันการชำระเงิน
+  </div>
+
+  <!-- Button -->
+  <button class="confirm-btn" onclick="confirmPayment()">
+    ชำระเงินแล้ว
+  </button>
+
+  <!-- Footer -->
+  <div class="footer">
+    ระบบจะตรวจสอบข้อมูลการชำระเงินภายหลัง
+  </div>
+
+</div>
+
+<!-- Loading Spinner -->
+<div id="loadingOverlay">
+
+  <div class="spinner"></div>
+
+  <div class="loading-text">
+    กำลังอัปโหลดข้อมูล...
+  </div>
+
+</div>
+
+<script>
+
+const LIFF_ID = "2010108734-5UUXYrMv";
+
+const API_URL = "YOUR_GOOGLE_SCRIPT_URL";
+
+async function main(){
+
+  await liff.init({
+    liffId: LIFF_ID
+  });
+
+  if(!liff.isLoggedIn()){
+
+    liff.login();
+
+  }
+
+}
+
+main();
+
+/* Preview Image */
+
+function previewImage(event){
+
+  const preview =
+    document.getElementById("preview");
+
+  preview.src =
+    URL.createObjectURL(event.target.files[0]);
+
+  preview.style.display = "block";
+
+}
+
+/* Show Loading */
+
+function showLoading(){
+
+  document
+    .getElementById("loadingOverlay")
+    .style.display = "flex";
+
+}
+
+/* Hide Loading */
+
+function hideLoading(){
+
+  document
+    .getElementById("loadingOverlay")
+    .style.display = "none";
+
+}
+
+/* Upload Slip */
+
+async function confirmPayment(){
+
+  const fileInput =
+    document.getElementById("slipFile");
+
+  const file =
+    fileInput.files[0];
+
+  if(!file){
+
+    alert("กรุณาอัปโหลดสลิป");
+
+    return;
+
+  }
+
+  // Disable Button
+  document.querySelector(".confirm-btn").disabled = true;
+
+  // Show Loading
+  showLoading();
+
+  const reader =
+    new FileReader();
+
+  reader.readAsDataURL(file);
+
+  reader.onload = async function(){
+
+    try{
+
+      const profile =
+        await liff.getProfile();
+
+      const data = {
+
+        userId: profile.userId,
+        name: profile.displayName,
+        base64: reader.result,
+        package: "แพ็คอาหาร 15 วัน",
+        amount: 3000
+
+      };
+
+      const response =
+        await fetch(API_URL,{
+
+          method:"POST",
+
+          body:JSON.stringify(data)
+
+        });
+
+      const result =
+        await response.json();
+
+      // Hide Loading
+      hideLoading();
+
+      // Redirect
+      window.location.href =
+        "success.html";
+
+    }catch(error){
+
+      console.log(error);
+
+      hideLoading();
+
+      document.querySelector(".confirm-btn").disabled = false;
+
+      alert("เกิดข้อผิดพลาด");
+
+    }
+
+  };
+
+}
+
+</script>
+
+</body>
+</html>

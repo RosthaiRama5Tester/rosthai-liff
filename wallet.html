@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Wallet</title>
+
+<script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:sans-serif;
+}
+
+body{
+
+  background:#ff5a1f;
+
+  min-height:100vh;
+
+  padding:20px;
+
+}
+
+.wallet-card{
+
+  background:white;
+
+  border-radius:30px;
+
+  padding:30px;
+
+  color:#333;
+
+  box-shadow:0 10px 30px rgba(0,0,0,0.15);
+
+}
+
+.title{
+
+  font-size:38px;
+
+  font-weight:bold;
+
+  color:#ff5a1f;
+
+  margin-bottom:25px;
+
+}
+
+.balance-card{
+
+  background:#fff5f1;
+
+  border-radius:24px;
+
+  padding:25px;
+
+  margin-bottom:30px;
+
+}
+
+.balance-label{
+
+  color:#666;
+
+  margin-bottom:10px;
+
+}
+
+.balance{
+
+  font-size:56px;
+
+  font-weight:bold;
+
+  color:#ff5a1f;
+
+}
+
+.history-title{
+
+  font-size:24px;
+
+  font-weight:bold;
+
+  margin-bottom:20px;
+
+}
+
+.transaction{
+
+  background:#f8f8f8;
+
+  border-radius:16px;
+
+  padding:16px;
+
+  margin-bottom:15px;
+
+}
+
+.transaction-top{
+
+  display:flex;
+
+  justify-content:space-between;
+
+  margin-bottom:8px;
+
+}
+
+.type{
+
+  font-weight:bold;
+
+}
+
+.amount{
+
+  font-weight:bold;
+
+}
+
+.credit{
+  color:#1db954;
+}
+
+.debit{
+  color:#ff4d4f;
+}
+
+.date{
+  color:#777;
+  font-size:14px;
+}
+
+.remark{
+  color:#555;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="wallet-card">
+
+  <div class="title">
+    Wallet Credit
+  </div>
+
+  <!-- Balance -->
+  <div class="balance-card">
+
+    <div class="balance-label">
+      เครดิตคงเหลือ
+    </div>
+
+    <div class="balance" id="balance">
+      0 บาท
+    </div>
+
+  </div>
+
+  <!-- History -->
+  <div class="history-title">
+    ประวัติรายการ
+  </div>
+
+  <div id="transactionList"></div>
+
+</div>
+
+<script>
+
+const LIFF_ID =
+  "2010108734-5UUXYrMv";
+
+const API_URL =
+  "YOUR_GOOGLE_SCRIPT_URL";
+
+async function main(){
+
+  await liff.init({
+    liffId: LIFF_ID
+  });
+
+  const profile =
+    await liff.getProfile();
+
+  loadWallet(profile.userId);
+
+}
+
+main();
+
+async function loadWallet(userId){
+
+  const response =
+    await fetch(
+      API_URL + "?userId=" + userId
+    );
+
+  const data =
+    await response.json();
+
+  // Balance
+  document.getElementById("balance")
+    .innerText =
+      data.balance + " บาท";
+
+  // Transaction
+  const container =
+    document.getElementById("transactionList");
+
+  container.innerHTML = "";
+
+  data.transactions.forEach(item=>{
+
+    container.innerHTML += `
+
+      <div class="transaction">
+
+        <div class="transaction-top">
+
+          <div class="type">
+            ${item.type}
+          </div>
+
+          <div class="
+            amount
+            ${item.amount > 0 ? 'credit':'debit'}
+          ">
+
+            ${item.amount > 0 ? '+' : ''}
+            ${item.amount}
+
+          </div>
+
+        </div>
+
+        <div class="date">
+          ${item.date}
+        </div>
+
+        <div class="remark">
+          ${item.remark}
+        </div>
+
+      </div>
+
+    `;
+
+  });
+
+}
+
+</script>
+
+</body>
+</html>

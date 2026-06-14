@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Weekly Menu</title>
+
+<script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:sans-serif;
+}
+
+body{
+
+  background:#ff5a1f;
+
+  padding:20px;
+
+  min-height:100vh;
+
+}
+
+.container{
+
+  max-width:500px;
+
+  margin:auto;
+
+}
+
+.title{
+
+  font-size:38px;
+
+  font-weight:bold;
+
+  color:white;
+
+  margin-bottom:25px;
+
+}
+
+.menu-card{
+
+  background:white;
+
+  border-radius:24px;
+
+  padding:20px;
+
+  margin-bottom:20px;
+
+  box-shadow:0 5px 15px rgba(0,0,0,0.1);
+
+}
+
+.date{
+
+  font-size:24px;
+
+  font-weight:bold;
+
+  color:#ff5a1f;
+
+  margin-bottom:20px;
+
+}
+
+.menu-item{
+
+  background:#fff5f1;
+
+  border-radius:14px;
+
+  padding:14px;
+
+  margin-bottom:12px;
+
+  display:flex;
+
+  align-items:center;
+
+}
+
+.menu-item input{
+  margin-right:12px;
+}
+
+.action-buttons{
+
+  display:flex;
+
+  gap:10px;
+
+  margin-top:20px;
+
+}
+
+button{
+
+  flex:1;
+
+  border:none;
+
+  padding:16px;
+
+  border-radius:14px;
+
+  font-size:18px;
+
+  font-weight:bold;
+
+  cursor:pointer;
+
+}
+
+.accept{
+
+  background:#1db954;
+
+  color:white;
+
+}
+
+.skip{
+
+  background:#f2f2f2;
+
+  color:#333;
+
+}
+
+.loading{
+
+  color:white;
+
+  text-align:center;
+
+  margin-top:40px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="title">
+    ปฏิทินรายการอาหาร
+  </div>
+
+  <div id="menuContainer">
+
+    <div class="loading">
+      กำลังโหลดเมนู...
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+
+const LIFF_ID =
+  "2010108734-5UUXYrMv";
+
+const API_URL =
+  "YOUR_GOOGLE_SCRIPT_URL";
+
+let profile;
+
+async function main(){
+
+  await liff.init({
+    liffId: LIFF_ID
+  });
+
+  profile =
+    await liff.getProfile();
+
+  loadMenu();
+
+}
+
+main();
+
+async function loadMenu(){
+
+  const response =
+    await fetch(API_URL);
+
+  const menus =
+    await response.json();
+
+  const container =
+    document.getElementById("menuContainer");
+
+  container.innerHTML = "";
+
+  menus.forEach((menu,index)=>{
+
+    container.innerHTML += `
+
+      <div class="menu-card">
+
+        <div class="date">
+          ${menu.date}
+        </div>
+
+        ${menu.items.map(item=>`
+
+          <label class="menu-item">
+
+            <input
+              type="radio"
+              name="menu-${index}"
+              value="${item}"
+            >
+
+            ${item}
+
+          </label>
+
+        `).join("")}
+
+        <div class="action-buttons">
+
+          <button
+            class="accept"
+            onclick="submitOrder(${index}, '${menu.date}')"
+          >
+            รับอาหาร
+          </button>
+
+          <button
+            class="skip"
+            onclick="skipOrder('${menu.date}')"
+          >
+            ไม่รับ
+          </button>
+
+        </div>
+
+      </div>
+
+    `;
+
+  });
+
+}
+
+async function submitOrder(index,date){
+
+  const selected =
+    document.querySelector(
+      `input[name="menu-${index}"]:checked`
+    );
+
+  if(!selected){
+
+    alert("กรุณาเลือกเมนู");
+
+    return;
+
+  }
+
+  await fetch(API_URL,{
+
+    method:"POST",
+
+    body:JSON.stringify({
+
+      action:"order",
+
+      userId:profile.userId,
+
+      name:profile.displayName,
+
+      date:date,
+
+      menu:selected.value,
+
+      status:"รับอาหาร"
+
+    })
+
+  });
+
+  alert("บันทึกรายการสำเร็จ");
+
+}
+
+async function skipOrder(date){
+
+  await fetch(API_URL,{
+
+    method:"POST",
+
+    body:JSON.stringify({
+
+      action:"skip",
+
+      userId:profile.userId,
+
+      name:profile.displayName,
+
+      date:date,
+
+      status:"ไม่รับอาหาร"
+
+    })
+
+  });
+
+  alert("บันทึกเรียบร้อย");
+
+}
+
+</script>
+
+</body>
+</html>

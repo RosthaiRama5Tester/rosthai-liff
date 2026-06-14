@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>สมัครสมาชิก - รสไท ปิ่นโต</title>
+
+<script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:sans-serif;
+}
+
+body{
+
+background:#ff5a1f;
+
+min-height:100vh;
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+padding:20px;
+
+}
+
+.container{
+
+width:100%;
+max-width:430px;
+
+background:#fff;
+
+border-radius:28px;
+
+padding:30px;
+
+box-shadow:0 10px 30px rgba(0,0,0,0.15);
+
+}
+
+.logo{
+
+text-align:center;
+
+margin-bottom:25px;
+
+}
+
+.logo img{
+
+width:100px;
+
+}
+
+.logo h1{
+
+margin-top:10px;
+
+color:#ff5a1f;
+
+font-size:34px;
+
+}
+
+.logo p{
+
+color:#777;
+
+margin-top:5px;
+
+}
+
+.input-group{
+
+margin-bottom:20px;
+
+}
+
+label{
+
+display:block;
+
+margin-bottom:8px;
+
+font-weight:bold;
+
+}
+
+input,
+textarea{
+
+width:100%;
+
+padding:14px;
+
+border:1px solid #ddd;
+
+border-radius:12px;
+
+font-size:16px;
+
+}
+
+textarea{
+
+resize:none;
+
+height:90px;
+
+}
+
+button{
+
+width:100%;
+
+padding:16px;
+
+background:#ff5a1f;
+
+color:white;
+
+border:none;
+
+border-radius:14px;
+
+font-size:18px;
+
+font-weight:bold;
+
+cursor:pointer;
+
+}
+
+button:disabled{
+
+background:#999;
+
+}
+
+#loadingOverlay{
+
+position:fixed;
+
+top:0;
+left:0;
+
+width:100%;
+height:100%;
+
+display:none;
+
+justify-content:center;
+align-items:center;
+flex-direction:column;
+
+background:rgba(255,255,255,0.9);
+
+z-index:9999;
+
+}
+
+.spinner{
+
+width:70px;
+height:70px;
+
+border:8px solid #ffd8c9;
+border-top:8px solid #ff5a1f;
+
+border-radius:50%;
+
+animation:spin 1s linear infinite;
+
+}
+
+.loading-text{
+
+margin-top:20px;
+
+font-size:18px;
+
+font-weight:bold;
+
+color:#ff5a1f;
+
+}
+
+@keyframes spin{
+
+0%{
+transform:rotate(0deg);
+}
+
+100%{
+transform:rotate(360deg);
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="logo">
+
+<img src="./PIC/logo.png">
+
+<h1>รสไท ปิ่นโต</h1>
+
+<p>สมัครสมาชิกเพื่อเริ่มใช้งาน</p>
+
+</div>
+
+<div class="input-group">
+
+<label>ชื่อ-นามสกุล</label>
+
+<input
+type="text"
+id="name"
+placeholder="กรอกชื่อ-นามสกุล">
+
+</div>
+
+<div class="input-group">
+
+<label>ที่อยู่จัดส่ง</label>
+
+<textarea
+id="address"
+placeholder="กรอกที่อยู่จัดส่ง"></textarea>
+
+</div>
+
+<div class="input-group">
+
+<label>เบอร์โทรศัพท์</label>
+
+<input
+type="tel"
+id="phone"
+placeholder="08xxxxxxxx">
+
+</div>
+
+<button
+id="submitBtn"
+onclick="submitForm()">
+
+สมัครสมาชิก
+
+</button>
+
+</div>
+
+<!-- Loading -->
+
+<div id="loadingOverlay">
+
+<div class="spinner"></div>
+
+<div class="loading-text">
+กำลังบันทึกข้อมูล...
+</div>
+
+</div>
+
+<script>
+
+const LIFF_ID =
+"2010108734-5UUXYrMv";
+
+/*
+ใส่ Web App URL จริง
+*/
+const API_URL =
+"https://script.google.com/macros/s/AKfycbxJIf_cMDyMSWyhwYhbgTNj2SHKgsZVojAdY2l16lqAYnQbCVacqleQlo1jWJNUU68SKQ/exec";
+
+async function main(){
+
+try{
+
+await liff.init({
+liffId:LIFF_ID
+});
+
+if(!liff.isLoggedIn()){
+
+liff.login();
+
+}
+
+}catch(err){
+
+alert("LIFF โหลดไม่สำเร็จ");
+
+console.log(err);
+
+}
+
+}
+
+main();
+
+function showLoading(){
+
+document
+.getElementById("loadingOverlay")
+.style.display = "flex";
+
+}
+
+function hideLoading(){
+
+document
+.getElementById("loadingOverlay")
+.style.display = "none";
+
+}
+
+async function submitForm(){
+
+const name =
+document
+.getElementById("name")
+.value
+.trim();
+
+const address =
+document
+.getElementById("address")
+.value
+.trim();
+
+const phone =
+document
+.getElementById("phone")
+.value
+.trim();
+
+if(name === ""){
+
+alert("กรุณากรอกชื่อ");
+
+return;
+
+}
+
+if(address === ""){
+
+alert("กรุณากรอกที่อยู่");
+
+return;
+
+}
+
+if(phone === ""){
+
+alert("กรุณากรอกเบอร์โทร");
+
+return;
+
+}
+
+if(!/^0[0-9]{8,9}$/.test(phone)){
+
+alert("รูปแบบเบอร์โทรไม่ถูกต้อง");
+
+return;
+
+}
+
+showLoading();
+
+document
+.getElementById("submitBtn")
+.disabled = true;
+
+try{
+
+const profile =
+await liff.getProfile();
+
+const payload = {
+
+userId: profile.userId,
+
+displayName:
+profile.displayName,
+
+pictureUrl:
+profile.pictureUrl,
+
+name:name,
+
+address:address,
+
+phone:phone
+
+};
+
+const response =
+await fetch(API_URL,{
+
+method:"POST",
+
+headers:{
+"Content-Type":
+"application/json"
+},
+
+body:
+JSON.stringify(payload)
+
+});
+
+const result =
+await response.json();
+
+hideLoading();
+
+alert("สมัครสมาชิกสำเร็จ");
+
+window.location.href =
+"package.html";
+
+}catch(error){
+
+hideLoading();
+
+document
+.getElementById("submitBtn")
+.disabled = false;
+
+alert("เกิดข้อผิดพลาด");
+
+console.log(error);
+
+}
+
+}
+
+</script>
+
+</body>
+</html>

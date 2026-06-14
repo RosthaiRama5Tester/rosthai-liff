@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <title>แพ็คเกจ รสไท ปิ่นโต</title>
+
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+
+  <style>
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:sans-serif;
+    }
+
+    body{
+      background:#ff5a1f;
+      min-height:100vh;
+      padding:20px;
+    }
+
+    .top-header{
+      display:flex;
+      align-items:center;
+      gap:16px;
+      margin-bottom:20px;
+      color:white;
+    }
+
+    .top-header img{
+      width:80px;
+      height:80px;
+    }
+
+    .top-header h1{
+      font-size:42px;
+      font-weight:bold;
+    }
+
+    .container{
+      background:white;
+      border-radius:30px;
+      padding:30px;
+      max-width:1000px;
+      margin:auto;
+      box-shadow:0 10px 30px rgba(0,0,0,0.15);
+    }
+
+    .title{
+      text-align:center;
+      margin-bottom:10px;
+      color:#ff5a1f;
+      font-size:42px;
+      font-weight:bold;
+    }
+
+    .subtitle{
+      text-align:center;
+      color:#666;
+      margin-bottom:40px;
+      font-size:20px;
+    }
+
+    .package-card{
+      background:#fff;
+      border-radius:24px;
+      padding:30px;
+      box-shadow:0 5px 20px rgba(0,0,0,0.08);
+    }
+
+    .package-title{
+      text-align:center;
+      font-size:40px;
+      font-weight:bold;
+      margin-bottom:10px;
+    }
+
+    .price{
+      text-align:center;
+      font-size:80px;
+      font-weight:bold;
+      color:#ff5a1f;
+      margin-bottom:30px;
+    }
+
+    .feature-grid{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:20px;
+      margin-bottom:40px;
+      border-top:1px solid #eee;
+      border-bottom:1px solid #eee;
+      padding:30px 0;
+    }
+
+    .feature{
+      text-align:center;
+    }
+
+    .feature-icon{
+      font-size:40px;
+      margin-bottom:10px;
+      color:#ff5a1f;
+    }
+
+    .feature p{
+      color:#333;
+      line-height:1.5;
+    }
+
+    .menu-title{
+      text-align:center;
+      font-size:34px;
+      font-weight:bold;
+      margin-bottom:30px;
+    }
+
+    .menu-title span{
+      color:#ff5a1f;
+    }
+
+    .menu-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:20px;
+      margin-bottom:40px;
+    }
+
+    .menu-card{
+      background:#fff;
+      border-radius:20px;
+      overflow:hidden;
+      box-shadow:0 5px 15px rgba(0,0,0,0.08);
+    }
+
+    .menu-card img{
+      width:100%;
+      height:200px;
+      object-fit:cover;
+    }
+
+    .menu-name{
+      padding:16px;
+      text-align:center;
+      font-size:24px;
+      font-weight:bold;
+    }
+
+    .subscribe-btn{
+      width:100%;
+      background:#ff5a1f;
+      color:white;
+      border:none;
+      border-radius:18px;
+      padding:22px;
+      font-size:32px;
+      font-weight:bold;
+      cursor:pointer;
+      transition:0.2s;
+    }
+
+    .subscribe-btn:hover{
+      opacity:0.9;
+    }
+
+    .footer-text{
+      margin-top:20px;
+      text-align:center;
+      color:#777;
+      font-size:18px;
+    }
+
+    @media(max-width:768px){
+
+      .top-header{
+        justify-content:center;
+      }
+
+      .top-header h1{
+        font-size:32px;
+      }
+
+      .title{
+        font-size:32px;
+      }
+
+      .package-title{
+        font-size:30px;
+      }
+
+      .price{
+        font-size:56px;
+      }
+
+      .feature-grid{
+        grid-template-columns:repeat(2,1fr);
+      }
+
+      .menu-grid{
+        grid-template-columns:1fr;
+      }
+
+      .subscribe-btn{
+        font-size:24px;
+      }
+
+    }
+
+  </style>
+</head>
+
+<body>
+
+<div class="top-header">
+  <img src="E:\rosthai-liff\index.html\PIC\logo.png">
+  <h1>รสไท ปิ่นโต</h1>
+</div>
+
+<div class="container">
+
+  <div class="title">
+    แพ็คเกจ รสไท ปิ่นโต
+  </div>
+
+  <div class="subtitle">
+    อิ่มอร่อยทุกวัน กับอาหารคุณภาพ ส่งตรงถึงบ้านคุณ
+  </div>
+
+  <div class="package-card">
+
+    <div class="package-title">
+      แพ็คอาหาร 15 วัน
+    </div>
+
+    <div class="price">
+      3,000 บาท
+    </div>
+
+    <div class="feature-grid">
+
+      <div class="feature">
+        <div class="feature-icon">📅</div>
+        <p>เลือกเมนู<br>รายวัน</p>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">🚚</div>
+        <p>จัดส่งตรงถึงบ้าน<br>ทุกวัน</p>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">🛡️</div>
+        <p>ปลอดภัย<br>ไร้สารกันเสีย</p>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">🎧</div>
+        <p>บริการดูแล<br>ตลอดการใช้งาน</p>
+      </div>
+
+    </div>
+
+    <div class="menu-title">
+      เมนูประจำวัน (เลือกได้ <span>6 เมนู</span>)
+    </div>
+
+    <div class="menu-grid">
+
+      <div class="menu-card">
+        <img src="E:\rosthai-liff\index.html\PIC\kapao.jpg">
+        <div class="menu-name">กะเพราหมูสับ</div>
+      </div>
+
+      <div class="menu-card">
+        <img src="E:\rosthai-liff\index.html\PIC\kangkeaw.jpg">
+        <div class="menu-name">แกงเขียวหวานไก่</div>
+      </div>
+
+      <div class="menu-card">
+        <img src="E:\rosthai-liff\index.html\PIC\pla.jpg">
+        <div class="menu-name">ปลานึ่งซีอิ๊ว</div>
+      </div>
+
+      <div class="menu-card">
+        <img src="E:\rosthai-liff\index.html\PIC\kaipad.jpg">
+        <div class="menu-name">ไก่ผัดเม็ดมะม่วง</div>
+      </div>
+
+      <div class="menu-card">
+        <img src="E:\rosthai-liff\index.html\PIC\tomjuad.jpg">
+        <div class="menu-name">ต้มจืดเต้าหู้หมูสับ</div>
+      </div>
+
+      <div class="menu-card">
+        <img src="E:\rosthai-liff\index.html\PIC\kaijeaw.jpg">
+        <div class="menu-name">ไข่เจียวหมูสับ</div>
+      </div>
+
+    </div>
+
+    <button class="subscribe-btn" onclick="goToPayment()">
+      สมัครแพ็คเกจ 3,000 บาท
+    </button>
+
+    <div class="footer-text">
+      🔒 ข้อมูลของคุณจะถูกเก็บเป็นความลับ
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+
+const LIFF_ID = "2010108734-5UUXYrMv";
+
+async function main(){
+
+  await liff.init({
+    liffId: LIFF_ID
+  });
+
+}
+
+main();
+
+function goToPayment(){
+
+  window.location.href = "payment.html";
+
+}
+
+</script>
+
+</body>
+</html>
