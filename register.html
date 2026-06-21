@@ -216,19 +216,24 @@ async function submitForm() {
   return;
 }
 
-if (address.length < 10) {
+  if (address.length < 10) {
   alert("กรุณากรอกที่อยู่จัดส่งให้ละเอียด");
   return;
 }
 
   const phoneRegex = /^0[0-9]{9}$/;
 
-if (!phoneRegex.test(phone)) {
-  alert("กรุณากรอกเบอร์โทรศัพท์ให้ถูกต้อง");
-  return;
+  if (!phoneRegex.test(phone)) {
+    alert("กรุณากรอกเบอร์โทรศัพท์ให้ถูกต้อง");
+    return;
 }
 
-  const values = sheet.getDataRange().getValues();
+  showLoading();
+
+  try {
+
+    const profile = await liff.getProfile();
+      const values = sheet.getDataRange().getValues();
 
 for (let i = 1; i < values.length; i++) {
   if (values[i][1] === userId) {
@@ -245,12 +250,6 @@ if (result.status === "exists") {
   window.location.href = "package.html";
   return;
 }
-
-  showLoading();
-
-  try {
-
-    const profile = await liff.getProfile();
 
     const formData = new URLSearchParams();
 
