@@ -320,126 +320,77 @@ document
 
 }
 
-async function submitForm(){
+async function submitForm() {
 
-const name =
-document
-.getElementById("name")
-.value
-.trim();
+  const name = document.getElementById("name").value.trim();
+  const address = document.getElementById("address").value.trim();
+  const phone = document.getElementById("phone").value.trim();
 
-const address =
-document
-.getElementById("address")
-.value
-.trim();
+  if (!name) {
+    alert("กรุณากรอกชื่อ-นามสกุล");
+    return;
+  }
 
-const phone =
-document
-.getElementById("phone")
-.value
-.trim();
+  if (!address) {
+    alert("กรุณากรอกที่อยู่จัดส่ง");
+    return;
+  }
 
-if(name === ""){
+  if (!phone) {
+    alert("กรุณากรอกเบอร์โทรศัพท์");
+    return;
+  }
 
-alert("กรุณากรอกชื่อ");
+  try {
 
-return;
+    // แสดง Loading (ถ้ามี)
+    if (typeof showLoading === "function") {
+      showLoading();
+    }
 
-}
+    const profile = await liff.getProfile();
 
-if(address === ""){
+    const payload = {
+      userId: profile.userId,
+      displayName: profile.displayName,
+      pictureUrl: profile.pictureUrl,
+      name: name,
+      address: address,
+      phone: phone
+    };
 
-alert("กรุณากรอกที่อยู่");
+    // ใช้ URLSearchParams เพื่อลดปัญหา CORS preflight
+    const params = new URLSearchParams();
+    params.append("data", JSON.stringify(payload));
 
-return;
+    const response = await fetch(API_URL, {
+      method: "POST",
+      body: params
+    });
 
-}
+    const result = await response.json();
 
-if(phone === ""){
+    console.log(result);
 
-alert("กรุณากรอกเบอร์โทร");
+    if (result.status === "success") {
+      alert("สมัครสมาชิกสำเร็จ");
+      window.location.href = "package.html";
+    } else {
+      alert("เกิดข้อผิดพลาด: " + (result.message || "ไม่ทราบสาเหตุ"));
+    }
 
-return;
+  } catch (err) {
 
-}
+    console.error(err);
+    alert("ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้");
 
-if(!/^0[0-9]{8,9}$/.test(phone)){
+  } finally {
 
-alert("รูปแบบเบอร์โทรไม่ถูกต้อง");
+    if (typeof hideLoading === "function") {
+      hideLoading();
+    }
 
-return;
-
-}
-
-showLoading();
-
-document
-.getElementById("submitBtn")
-.disabled = true;
-
-try{
-
-const profile =
-await liff.getProfile();
-
-const payload = {
-
-userId: profile.userId,
-
-displayName:
-profile.displayName,
-
-pictureUrl:
-profile.pictureUrl,
-
-name:name,
-
-address:address,
-
-phone:phone
-
-};
-
-const response =
-await fetch(API_URL,{
-
-method:"POST",
-
-headers:{
-"Content-Type":
-"application/json"
-},
-
-body:
-JSON.stringify(payload)
-
-});
-
-const result =
-await response.json();
-
-hideLoading();
-
-alert("สมัครสมาชิกสำเร็จ");
-
-window.location.href =
-"package.html";
-
-}catch(error){
-
-hideLoading();
-
-document
-.getElementById("submitBtn")
-.disabled = false;
-
-alert("เกิดข้อผิดพลาด");
-
-console.log(error);
-
-}
-
+  }
 }
 
 </script>
