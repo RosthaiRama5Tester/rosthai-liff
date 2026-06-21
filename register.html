@@ -1,323 +1,203 @@
 <!DOCTYPE html>
 <html lang="th">
-
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>สมัครสมาชิก - รสไท ปิ่นโต</title>
-
-<script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
-
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:sans-serif;
-}
-
-body{
-
-background:#ff5a1f;
-
-min-height:100vh;
-
-display:flex;
-justify-content:center;
-align-items:center;
-
-padding:20px;
-
-}
-
-.container{
-
-width:100%;
-max-width:430px;
-
-background:#fff;
-
-border-radius:28px;
-
-padding:30px;
-
-box-shadow:0 10px 30px rgba(0,0,0,0.15);
-
-}
-
-.logo{
-
-text-align:center;
-
-margin-bottom:25px;
-
-}
-
-.logo img{
-
-width:100px;
-
-}
-
-.logo h1{
-
-margin-top:10px;
-
-color:#ff5a1f;
-
-font-size:34px;
-
-}
-
-.logo p{
-
-color:#777;
-
-margin-top:5px;
-
-}
-
-.input-group{
-
-margin-bottom:20px;
-
-}
-
-label{
-
-display:block;
-
-margin-bottom:8px;
-
-font-weight:bold;
-
-}
-
-input,
-textarea{
-
-width:100%;
-
-padding:14px;
-
-border:1px solid #ddd;
-
-border-radius:12px;
-
-font-size:16px;
-
-}
-
-textarea{
-
-resize:none;
-
-height:90px;
-
-}
-
-button{
-
-width:100%;
-
-padding:16px;
-
-background:#ff5a1f;
-
-color:white;
-
-border:none;
-
-border-radius:14px;
-
-font-size:18px;
-
-font-weight:bold;
-
-cursor:pointer;
-
-}
-
-button:disabled{
-
-background:#999;
-
-}
-
-#loadingOverlay{
-
-position:fixed;
-
-top:0;
-left:0;
-
-width:100%;
-height:100%;
-
-display:none;
-
-justify-content:center;
-align-items:center;
-flex-direction:column;
-
-background:rgba(255,255,255,0.9);
-
-z-index:9999;
-
-}
-
-.spinner{
-
-width:70px;
-height:70px;
-
-border:8px solid #ffd8c9;
-border-top:8px solid #ff5a1f;
-
-border-radius:50%;
-
-animation:spin 1s linear infinite;
-
-}
-
-.loading-text{
-
-margin-top:20px;
-
-font-size:18px;
-
-font-weight:bold;
-
-color:#ff5a1f;
-
-}
-
-@keyframes spin{
-
-0%{
-transform:rotate(0deg);
-}
-
-100%{
-transform:rotate(360deg);
-}
-
-}
-
-</style>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>รสไท ปิ่นโต - สมัครสมาชิก</title>
+
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:Arial,sans-serif;
+    }
+
+    body{
+      background:#ff6a2a;
+      min-height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      padding:20px;
+    }
+
+    .card{
+      width:100%;
+      max-width:420px;
+      background:#fff;
+      border-radius:20px;
+      padding:30px;
+      box-shadow:0 10px 30px rgba(0,0,0,.15);
+    }
+
+    .logo{
+      text-align:center;
+      margin-bottom:20px;
+    }
+
+    .logo img{
+      width:90px;
+    }
+
+    h2{
+      text-align:center;
+      color:#ff6a2a;
+      margin-top:10px;
+      margin-bottom:25px;
+    }
+
+    label{
+      font-weight:bold;
+      display:block;
+      margin-bottom:8px;
+    }
+
+    input,
+    textarea{
+      width:100%;
+      padding:12px;
+      border:1px solid #ddd;
+      border-radius:10px;
+      margin-bottom:18px;
+      font-size:15px;
+    }
+
+    textarea{
+      resize:none;
+      height:90px;
+    }
+
+    button{
+      width:100%;
+      padding:15px;
+      border:none;
+      border-radius:12px;
+      background:#ff6a2a;
+      color:#fff;
+      font-size:17px;
+      cursor:pointer;
+    }
+
+    button:disabled{
+      opacity:.6;
+      cursor:not-allowed;
+    }
+
+    #loading{
+      display:none;
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.4);
+      justify-content:center;
+      align-items:center;
+      z-index:9999;
+    }
+
+    .spinner{
+      width:60px;
+      height:60px;
+      border:6px solid #eee;
+      border-top:6px solid #ff6a2a;
+      border-radius:50%;
+      animation:spin 1s linear infinite;
+      background:#fff;
+    }
+
+    @keyframes spin{
+      to{
+        transform:rotate(360deg);
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="container">
+<div id="loading">
+  <div class="spinner"></div>
+</div>
 
-<div class="logo">
+<div class="card">
 
-<img src="./PIC/logo.png">
+  <div class="logo">
+    <img src="PIC/logo.png" alt="Logo">
+  </div>
 
-<h1>รสไท ปิ่นโต</h1>
+  <h2>รสไท ปิ่นโต</h2>
 
-<p>สมัครสมาชิกเพื่อเริ่มใช้งาน</p>
+<form id="registerForm">
+
+  <label>ชื่อ-นามสกุล</label>
+  <input
+    type="text"
+    id="name"
+    name="name"
+    required
+  >
+
+  <label>ที่อยู่จัดส่ง</label>
+  <textarea
+    id="address"
+    name="address"
+    required
+  ></textarea>
+
+  <label>เบอร์โทรศัพท์</label>
+  <input
+    type="tel"
+    id="phone"
+    name="phone"
+    required
+  >
+
+  <button
+    type="button"
+    onclick="submitForm()"
+  >
+    สมัครสมาชิก
+  </button>
+
+</form>
 
 </div>
 
-<div class="input-group">
-
-<label>ชื่อ-นามสกุล</label>
-
-<input
-type="text"
-id="name"
-placeholder="กรอกชื่อ-นามสกุล">
-
-</div>
-
-<div class="input-group">
-
-<label>ที่อยู่จัดส่ง</label>
-
-<textarea
-id="address"
-placeholder="กรอกที่อยู่จัดส่ง"></textarea>
-
-</div>
-
-<div class="input-group">
-
-<label>เบอร์โทรศัพท์</label>
-
-<input
-type="tel"
-id="phone"
-placeholder="08xxxxxxxx">
-
-</div>
-
-<button
-id="submitBtn"
-onclick="submitForm()">
-
-สมัครสมาชิก
-
-</button>
-
-</div>
-
-<!-- Loading -->
-
-<div id="loadingOverlay">
-
-<div class="spinner"></div>
-
-<div class="loading-text">
-กำลังบันทึกข้อมูล...
-</div>
-
-</div>
+<script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 
 <script>
 
-const LIFF_ID =
-"2010108734-5UUXYrMv";
+const LIFF_ID = "2010108734-5UUXYrMv";
 
-/*
-ใส่ Web App URL จริง
-*/
 const API_URL =
-"https://script.google.com/macros/s/AKfycbwmGoXSI9XMA_zOh1xcdH_a6K1ScfiRQ9US8XRq4kG6pTmV6jrBOaVmZJMLRd8O5rHcjg/exec";
+"https://script.google.com/macros/s/AKfycbxqRrBaFJCkohj6EuF_fhA6whdZB3j4HeepqYpRQwGzYs6rXQ6Oz2OEBrmx5nSSzBic5A/exec";
 
-async function main() {
-  await liff.init({ liffId: "2010108734-5UUXYrMv" });
+async function initLiff() {
+
+  await liff.init({
+    liffId: LIFF_ID
+  });
 
   if (!liff.isLoggedIn()) {
-    liff.login({ redirectUri: window.location.href });
+
+    liff.login({
+      redirectUri: window.location.href
+    });
+
     return;
   }
 
-  const profile = await liff.getProfile();
-  console.log(profile);
 }
 
-main();
+initLiff();
 
-function showLoading(){
-
-document
-.getElementById("loadingOverlay")
-.style.display = "flex";
-
+function showLoading() {
+  document.getElementById("loading").style.display = "flex";
 }
 
-function hideLoading(){
-
-document
-.getElementById("loadingOverlay")
-.style.display = "none";
-
+function hideLoading() {
+  document.getElementById("loading").style.display = "none";
 }
 
 async function submitForm() {
@@ -326,74 +206,54 @@ async function submitForm() {
   const address = document.getElementById("address").value.trim();
   const phone = document.getElementById("phone").value.trim();
 
-  if (!name) {
-    alert("กรุณากรอกชื่อ-นามสกุล");
+  if (!name || !address || !phone) {
+    alert("กรุณากรอกข้อมูลให้ครบ");
     return;
   }
 
-  if (!address) {
-    alert("กรุณากรอกที่อยู่จัดส่ง");
-    return;
-  }
-
-  if (!phone) {
-    alert("กรุณากรอกเบอร์โทรศัพท์");
-    return;
-  }
+  showLoading();
 
   try {
 
-    // แสดง Loading (ถ้ามี)
-    if (typeof showLoading === "function") {
-      showLoading();
-    }
-
     const profile = await liff.getProfile();
 
-    const payload = {
-      userId: profile.userId,
-      displayName: profile.displayName,
-      pictureUrl: profile.pictureUrl,
-      name: name,
-      address: address,
-      phone: phone
-    };
+    const formData = new URLSearchParams();
 
-    // ใช้ URLSearchParams เพื่อลดปัญหา CORS preflight
-    const params = new URLSearchParams();
-    params.append("data", JSON.stringify(payload));
+    formData.append("userId", profile.userId);
+    formData.append("displayName", profile.displayName);
+    formData.append("name", name);
+    formData.append("phone", phone);
+    formData.append("address", address);
 
     const response = await fetch(API_URL, {
       method: "POST",
-      body: params
+      body: formData
     });
 
     const result = await response.json();
 
-    console.log(result);
+    hideLoading();
 
     if (result.status === "success") {
-      alert("สมัครสมาชิกสำเร็จ");
+
       window.location.href = "package.html";
+
     } else {
-      alert("เกิดข้อผิดพลาด: " + (result.message || "ไม่ทราบสาเหตุ"));
+
+      alert(result.message || "เกิดข้อผิดพลาด");
+
     }
 
   } catch (err) {
 
+    hideLoading();
+
     console.error(err);
-    alert("ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้");
 
-  } finally {
-
-    if (typeof hideLoading === "function") {
-      hideLoading();
-    }
+    alert("เชื่อมต่อเซิร์ฟเวอร์ไม่สำเร็จ");
 
   }
+
 }
 
 </script>
-
-</body>
-</html>
