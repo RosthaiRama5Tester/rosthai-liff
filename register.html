@@ -228,12 +228,7 @@ async function submitForm() {
     return;
 }
 
-  showLoading();
-
-  try {
-
-    const profile = await liff.getProfile();
-      const values = sheet.getDataRange().getValues();
+  const values = sheet.getDataRange().getValues();
 
 for (let i = 1; i < values.length; i++) {
   if (values[i][1] === userId) {
@@ -251,6 +246,11 @@ if (result.status === "exists") {
   return;
 }
 
+  showLoading();
+
+  try {
+
+    const profile = await liff.getProfile();
     const formData = new URLSearchParams();
 
     formData.append("userId", profile.userId);
