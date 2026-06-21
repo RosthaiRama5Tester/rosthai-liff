@@ -211,23 +211,6 @@ async function submitForm() {
     return;
   }
 
-  if (name.length < 2) {
-  alert("กรุณากรอกชื่อ-นามสกุลให้ถูกต้อง");
-  return;
-}
-
-  if (address.length < 10) {
-  alert("กรุณากรอกที่อยู่จัดส่งให้ละเอียด");
-  return;
-}
-
-  const phoneRegex = /^0[0-9]{9}$/;
-
-  if (!phoneRegex.test(phone)) {
-    alert("กรุณากรอกเบอร์โทรศัพท์ให้ถูกต้อง");
-    return;
-}
-
   const values = sheet.getDataRange().getValues();
 
 for (let i = 1; i < values.length; i++) {
@@ -240,17 +223,12 @@ for (let i = 1; i < values.length; i++) {
   }
 }
 
-if (result.status === "exists") {
-  alert("คุณเป็นสมาชิกอยู่แล้ว");
-  window.location.href = "package.html";
-  return;
-}
-
   showLoading();
 
   try {
 
     const profile = await liff.getProfile();
+
     const formData = new URLSearchParams();
 
     formData.append("userId", profile.userId);
