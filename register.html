@@ -234,15 +234,25 @@ async function submitForm() {
 
     hideLoading();
 
-    if (result.status === "success") {
+  if (result.status === "success") {
+
+      alert("สมัครสมาชิกสำเร็จ");
 
       window.location.href = "package.html";
 
-    } else {
+    }
+  else if(result.status === "exists"){
 
-      alert(result.message || "เกิดข้อผิดพลาด");
+      alert("คุณเป็นสมาชิกอยู่แล้ว");
+
+      window.location.href="package.html";
 
     }
+  else{
+
+    alert(result.message || "เกิดข้อผิดพลาด");
+
+  }
 
   } catch (err) {
 
